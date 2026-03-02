@@ -48,6 +48,7 @@
             margin: 0 0 20px 0;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
         }
@@ -204,14 +205,18 @@
         <div class="step-card">
             <div class="step-num">2</div>
             <div class="step-content">
-                <h3>開始：ツールを動かす</h3>
-                <p>展開したフォルダの中で右クリックし、「ターミナルで開く」または「コマンドプロンプト」を開いて、以下の魔法の言葉を入力してください。</p>
+                <h3>開始：かんたん実行ファイルをダブルクリック</h3>
+                <p>展開したフォルダの中に、いくつか「.bat」で終わるファイルがあります。順番にダブルクリックするだけでOKです。</p>
                 <div class="code-box">
-                    npm install (最初だけ1回)<br>
-                    npm start
+                    1. setup.bat をダブルクリック (最初だけ1回)<br>
+                    2. start.bat をダブルクリック (毎回)
                 </div>
-                <p style="margin-top:15px;">入力が終わると、<code>http://localhost:8081</code>
-                    という文字が出るので、それをクリックするかブラウザで開いてください。</p>
+                <p style="margin-top:15px;">黒い画面に「Server is running...」と出たら準備完了！ブラウザで <code>http://localhost:8081</code>
+                    を開いてください。</p>
+                <div class="tip">
+                    <strong>🆙 アップデートしたいときは？</strong><br>
+                    <code>update.bat</code> をダブルクリックするだけで、自動で最新版になります。
+                </div>
             </div>
         </div>
 
