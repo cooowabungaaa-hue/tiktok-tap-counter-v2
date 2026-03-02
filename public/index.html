@@ -4,20 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Live - Tap Ranking Monitor</title>
+    <title>TikTok Live - Dashboard Monitor</title>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Noto+Sans+JP:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f0f11;
-            --card-bg: #1f1f23;
+            --bg-color: #0d0d0f;
+            --card-bg: #18181b;
             --text-main: #ffffff;
-            --text-sub: #8a8b91;
+            --text-sub: #a1a1aa;
             --tiktok-cyan: #25F4EE;
             --tiktok-magenta: #FE2C55;
             --gold: #FFD700;
-            --silver: #C0C0C0;
+            --silver: #E2E2E2;
             --bronze: #CD7F32;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -25,119 +31,143 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background-color: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
-            overflow: hidden;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .header {
-            padding: 24px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: linear-gradient(135deg, rgba(37, 244, 238, 0.1) 0%, rgba(254, 44, 85, 0.1) 100%);
-            position: relative;
-        }
-
-        .settings-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
+        /* Top Bar */
+        .top-bar {
+            height: 60px;
+            background: rgba(24, 24, 27, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
-            gap: 5px;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
         }
 
-        .settings-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 26px;
+        .logo {
+            font-size: 20px;
             font-weight: 800;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            letter-spacing: -0.5px;
+            gap: 10px;
         }
 
-        .header h1 span {
+        .logo span {
             color: var(--tiktok-magenta);
             filter: drop-shadow(0 0 8px var(--tiktok-magenta));
         }
 
-        .status {
-            font-size: 13px;
-            color: var(--text-sub);
-            margin-top: 8px;
+        .nav-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
+            gap: 12px;
+        }
+
+        .status-badge {
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .pulse {
             width: 8px;
             height: 8px;
-            background-color: var(--tiktok-cyan);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--tiktok-cyan);
+        }
+
+        /* Layout Container */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left: Stream View */
+        .stream-panel {
+            flex: 1.2;
+            border-right: 1px solid var(--glass-border);
+            background: #000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stream-placeholder {
+            text-align: center;
+            max-width: 400px;
+            padding: 40px;
+        }
+
+        .stream-placeholder h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .stream-placeholder p {
+            color: var(--text-sub);
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+
+        /* Right: Ranking View */
+        .ranking-panel {
+            flex: 0.8;
+            background-color: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
         }
 
         .ranking-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: 70vh;
             overflow-y: auto;
-        }
-
-        .ranking-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .ranking-list::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            flex: 1;
         }
 
         .user-card {
             display: flex;
             align-items: center;
-            padding: 16px 24px;
+            padding: 14px 24px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: background-color 0.3s;
+            transition: background 0.2s;
         }
 
         .user-card:hover {
-            background-color: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .rank {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             width: 32px;
             color: var(--text-sub);
@@ -145,39 +175,28 @@
 
         .user-list-item:nth-child(1) .rank {
             color: var(--gold);
-            font-size: 24px;
         }
 
         .user-list-item:nth-child(2) .rank {
             color: var(--silver);
-            font-size: 20px;
         }
 
         .user-list-item:nth-child(3) .rank {
             color: var(--bronze);
-            font-size: 20px;
         }
 
         .avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background-color: #333;
-            margin-right: 16px;
+            margin-right: 14px;
             object-fit: cover;
-            border: 2px solid transparent;
+            border: 1.5px solid transparent;
         }
 
         .user-list-item:nth-child(1) .avatar {
             border-color: var(--gold);
-        }
-
-        .user-list-item:nth-child(2) .avatar {
-            border-color: var(--silver);
-        }
-
-        .user-list-item:nth-child(3) .avatar {
-            border-color: var(--bronze);
         }
 
         .user-info {
@@ -185,12 +204,9 @@
         }
 
         .user-name {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
-            margin: 0 0 2px 0;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            margin: 0;
         }
 
         .user-id {
@@ -200,28 +216,51 @@
         }
 
         .tap-count {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 800;
             color: var(--tiktok-cyan);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
         .tap-icon {
             color: var(--tiktok-magenta);
-            font-size: 16px;
+            font-size: 14px;
         }
 
-        /* Modal Settings */
+        /* Buttons & Modals */
+        .btn {
+            background: var(--tiktok-magenta);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -231,16 +270,10 @@
         .modal {
             background: var(--card-bg);
             padding: 32px;
-            border-radius: 24px;
+            border-radius: 20px;
             width: 90%;
             max-width: 400px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
-        }
-
-        .modal h2 {
-            margin: 0 0 20px 0;
-            font-size: 22px;
+            border: 1px solid var(--glass-border);
         }
 
         .form-group {
@@ -249,42 +282,19 @@
 
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-sub);
             margin-bottom: 8px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
             color: white;
             box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--tiktok-magenta);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 12px;
-            transition: opacity 0.2s;
-        }
-
-        .btn-secondary {
-            width: 100%;
-            background: transparent;
-            color: var(--text-sub);
-            border: none;
-            font-size: 13px;
-            cursor: pointer;
         }
 
         /* Animations */
@@ -294,11 +304,29 @@
 
         @keyframes flash {
             0% {
-                background-color: rgba(254, 44, 85, 0.2);
+                background: rgba(254, 44, 85, 0.15);
             }
 
             100% {
-                background-color: transparent;
+                background: transparent;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .main-layout {
+                flex-direction: column;
+            }
+
+            .stream-panel {
+                flex: 0.5;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+
+            .ranking-panel {
+                flex: 1;
+                min-width: 100%;
             }
         }
     </style>
@@ -306,24 +334,45 @@
 
 <body>
 
-    <div class="container">
-        <div class="header">
-            <button class="settings-btn" id="open-settings">⚙ 設定</button>
-            <h1><span>❤</span> Tap Ranking</h1>
-            <div id="connection-status" class="status">
+    <div class="top-bar">
+        <div class="logo"><span>❤</span> Tap Dashboard</div>
+        <div class="nav-actions">
+            <div id="connection-status" class="status-badge">
                 <div class="pulse"></div>
-                Initializing...
+                Checking...
             </div>
+            <button class="btn btn-outline" id="open-settings">⚙ 設定</button>
         </div>
-        <ul class="ranking-list" id="ranking-container">
-            <!-- Ranking items will be injected here -->
-        </ul>
+    </div>
+
+    <div class="main-layout">
+        <!-- Dashboard: Left Panel (Stream) -->
+        <div class="stream-panel">
+            <div class="stream-placeholder" id="stream-info">
+                <h2>📺 Stream Monitor</h2>
+                <p>設定画面でTikTok IDを入力すると、ここに配信ページを補助する窓が表示されます。</p>
+                <button class="btn" id="launch-stream">TikTok配信を別窓で開く</button>
+                <p style="margin-top: 15px; font-size: 12px;">※TikTokの仕様により、この画面内に直接埋め込むのではなく別窓で開くのが最も確実です。</p>
+            </div>
+            <!-- If we wanted to attempt iframe, we could, but it usually gets blocked -->
+        </div>
+
+        <!-- Dashboard: Right Panel (Ranking) -->
+        <div class="ranking-panel">
+            <div class="panel-header">
+                <h3>🏆 Tap Ranking</h3>
+                <span id="rank-count" style="font-size: 12px; color: var(--text-sub);">0 Viewers</span>
+            </div>
+            <ul class="ranking-list" id="ranking-container">
+                <!-- Ranking items will be injected here -->
+            </ul>
+        </div>
     </div>
 
     <!-- Settings Modal -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
-            <h2>⚙ ツール設定</h2>
+            <h2 style="margin-top: 0;">⚙ ツール設定</h2>
             <div class="form-group">
                 <label>TikTok ユーザーID (@なし)</label>
                 <input type="text" id="tiktok-id-input" placeholder="example_account">
@@ -332,8 +381,9 @@
                 <label>Google Sheets App Script URL (任意)</label>
                 <input type="text" id="gs-url-input" placeholder="https://script.google.com/macros/s/...">
             </div>
-            <button class="btn-primary" id="save-settings">設定を保存して再起動</button>
-            <button class="btn-secondary" id="close-settings">キャンセル</button>
+            <button class="btn" id="save-settings" style="width: 100%;">設定を保存して再起動</button>
+            <button class="btn btn-outline" id="close-settings"
+                style="width: 100%; margin-top: 10px; border:none;">キャンセル</button>
         </div>
     </div>
 
@@ -342,9 +392,12 @@
         const container = document.getElementById('ranking-container');
         const statusEl = document.getElementById('connection-status');
         const modal = document.getElementById('modal-overlay');
+        const rankCountEl = document.getElementById('rank-count');
 
         const tiktokInput = document.getElementById('tiktok-id-input');
         const gsInput = document.getElementById('gs-url-input');
+
+        let currentTiktokId = '';
 
         // 初期設定の取得
         fetch('/api/config')
@@ -352,29 +405,30 @@
             .then(config => {
                 tiktokInput.value = config.tiktokUsername;
                 gsInput.value = config.googleSheetUrl;
+                currentTiktokId = config.tiktokUsername;
             });
 
         socket.on('statusUpdate', (data) => {
             const color = data.connected ? 'var(--tiktok-cyan)' : 'var(--tiktok-magenta)';
-            const pulse = `<div class="pulse" style="background-color: ${color}; box-shadow: 0 0 10px ${color}"></div>`;
-            statusEl.innerHTML = `${pulse} ${data.msg}`;
+            const pulse = statusEl.querySelector('.pulse');
+            pulse.style.backgroundColor = color;
+            pulse.style.boxShadow = `0 0 10px ${color}`;
+            statusEl.childNodes[2].textContent = data.msg;
         });
 
         let prevRanking = {};
 
         socket.on('rankingUpdate', (ranking) => {
             renderRanking(ranking);
+            rankCountEl.textContent = `${ranking.length} Viewers Tracked`;
         });
 
         function renderRanking(viewers) {
             container.innerHTML = '';
-
             viewers.forEach((viewer, index) => {
                 const li = document.createElement('li');
                 li.className = 'user-card user-list-item';
-                li.id = `user-${viewer.id}`;
 
-                // タップ数が増えた場合にフラッシュさせる
                 if (prevRanking[viewer.id] && prevRanking[viewer.id] < viewer.taps) {
                     li.classList.add('update-flash');
                 }
@@ -395,13 +449,24 @@
             });
         }
 
+        // Action: Launch Stream
+        document.getElementById('launch-stream').onclick = () => {
+            if (!currentTiktokId) {
+                alert('先に設定画面でTikTok IDを入力してください。');
+                return;
+            }
+            const url = `https://www.tiktok.com/@${currentTiktokId}/live`;
+            // 小窓で開く
+            window.open(url, 'tiktok_live', 'width=1000,height=700');
+        };
+
         // Modal Controls
         document.getElementById('open-settings').onclick = () => modal.style.display = 'flex';
         document.getElementById('close-settings').onclick = () => modal.style.display = 'none';
 
         document.getElementById('save-settings').onclick = async () => {
             const config = {
-                tiktokUsername: tiktokInput.value.trim(),
+                tiktokUsername: tiktokInput.value.trim().replace('@', ''),
                 googleSheetUrl: gsInput.value.trim()
             };
 
@@ -412,12 +477,11 @@
             });
 
             if (res.ok) {
+                currentTiktokId = config.tiktokUsername;
                 modal.style.display = 'none';
-                alert('設定を保存しました。再接続を開始します。');
             }
         };
     </script>
-
 </body>
 
 </html>
