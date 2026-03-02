@@ -7,18 +7,20 @@ echo   TikTok Live Tap Dashboard - 初回セットアップ
 echo ======================================================
 echo.
 
-:: 1. 既に PATH にあるかチェック
+:: --- Node.js 準備フェーズ ---
+
+:CHECK_NODE
 set NODE_EXE=node
 where %NODE_EXE% >nul 2>nul
 if %ERRORLEVEL% EQU 0 goto NODE_FOUND
 
-:: 2. 自分のフォルダ内の node-bin をチェック
+:: ローカルの node-bin をチェック
 if exist "%~dp0node-bin\node.exe" (
     set "PATH=%~dp0node-bin;%PATH%"
     goto NODE_FOUND
 )
 
-:: 3. 他のプロジェクトの node-bin をチェック (既存の環境用)
+:: 他のプロジェクトから探す (ポータブル版の共有)
 if exist "..\tiktok-rose-counter-main\node-bin\node.exe" (
     set "PATH=%~dp0..\tiktok-rose-counter-main\node-bin;%PATH%"
     goto NODE_FOUND
@@ -28,20 +30,29 @@ if exist "C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin\node.e
     goto NODE_FOUND
 )
 
-:NODE_NOT_FOUND
+:: ここまでで見つからない場合：自動ダウンロードを提案
 echo [!] Node.js が見つかりませんでした。
 echo.
-echo 会社や管理制限のあるPCで、インストールができない場合は：
-echo 1. 「PORTABLE_GUIDE.md」を読んでください。
-echo 2. ポータブル版をダウンロードして「node-bin」フォルダに入れてください。
+echo このツールを動かすには Node.js という無料ソフトが必要です。
+echo 会社PC等でインストールできない場合、ここに「ポータブル版」を
+echo 自動でダウンロードして準備することができます。
 echo.
-pause
-exit /b 1
+set /p CHOICE="自動ダウンロードして準備しますか？ (y/n): "
+if /i "%CHOICE%"=="y" (
+    call get-node.bat
+    goto CHECK_NODE
+) else (
+    echo.
+    echo 中断しました。Node.js を手動で用意してください。
+    pause
+    exit /b 1
+)
 
 :NODE_FOUND
-echo [✓] Node.js を確認しました。
+echo [✓] Node.js の準備ができました。
 echo.
-echo [1/2] 必要なプログラムを準備しています...
+echo [1/2] 必要なプログラムの構成中...
+echo (少し時間がかかります)
 echo.
 
 call npm install
