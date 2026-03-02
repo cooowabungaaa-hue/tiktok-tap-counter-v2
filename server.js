@@ -55,6 +55,19 @@ app.post('/api/config', (req, res) => {
     res.json({ success: true, config });
 });
 
+// API: 停止（サーバー終了）
+app.post('/api/stop', (req, res) => {
+    res.json({ success: true, message: 'Shutting down...' });
+    console.log('Shutdown requested from UI. Executing stop.bat...');
+
+    // 自信を終了させるために stop.bat を呼び出す
+    // (stop.bat は node.exe を kill するので、ここが最後の処理になる)
+    setTimeout(() => {
+        const { exec } = require('child_process');
+        exec('cmd /c stop.bat');
+    }, 500);
+});
+
 // TikTok Live接続管理
 function reconnectTikTok() {
     if (tiktokConnection) {

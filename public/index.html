@@ -301,6 +301,8 @@
                 Checking...
             </div>
             <button class="btn btn-outline" id="open-settings">⚙ 設定</button>
+            <button class="btn btn-outline" id="shutdown-btn"
+                style="color: var(--tiktok-magenta); border-color: rgba(254, 44, 85, 0.3);">🛑 終了</button>
         </div>
     </div>
 
@@ -454,6 +456,27 @@
             if (res.ok) {
                 currentTiktokId = config.tiktokUsername;
                 modal.style.display = 'none';
+            }
+        };
+        // Shutdown Tool
+        document.getElementById('shutdown-btn').onclick = async () => {
+            if (!confirm('ツールを完全に終了してもよろしいですか？')) return;
+
+            try {
+                const res = await fetch('/api/stop', { method: 'POST' });
+                if (res.ok) {
+                    document.body.innerHTML = `
+                        <div style="height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; background:#000; color:#fff;">
+                            <h1 style="color:var(--tiktok-magenta)">🛑 ツールを終了しています...</h1>
+                            <p>この画面（ブラウザ）を閉じてください。</p>
+                        </div>
+                    `;
+                    // window.close() はユーザー操作で開いた窓でないと動かないことが多いが試みる
+                    setTimeout(() => { window.close(); }, 2000);
+                }
+            } catch (err) {
+                console.error('Logout failed:', err);
+                alert('終了処理に失敗しました。黒い画面を直接閉じてください。');
             }
         };
     </script>
