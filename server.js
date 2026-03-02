@@ -72,12 +72,20 @@ function reconnectTikTok() {
     tiktokConnection = new WebcastPushConnection(config.tiktokUsername);
 
     tiktokConnection.connect().then(state => {
-        console.info(`Connected to roomId ${state.roomId}`);
-        io.emit('statusUpdate', { connected: true, msg: `Connected to ${config.tiktokUsername}` });
+        console.log(`Connected to TikTok Room ID: ${state.roomId}`);
+        io.emit('statusUpdate', { connected: true, msg: `Connected: ${config.tiktokUsername}` });
     }).catch(err => {
-        console.error('Failed to connect', err);
-        io.emit('statusUpdate', { connected: false, msg: '接続待機中 (Live開始待ち)...' });
-        // 再試行は基本ライブラリ側でも行われるが、明示的なスケジュールも検討可
+        console.error('TikTok Connection Error:', err.message);
+        io.emit('statusUpdate', { connected: false, msg: `Connection Error: ${err.message}` });
+
+        // Retry logic
+        setTimeout(reconnectTikTok, 10000);
+    });
+
+    tiktokConnection.on('disconnected', () => {
+        console.log('TikTok Connection Disconnected');
+        io.emit('statusUpdate', { connected: false, msg: 'Disconnected. Retrying...' });
+        setTimeout(reconnectTikTok, 5000);
     });
 
     tiktokConnection.on('like', (data) => {
