@@ -205,17 +205,27 @@
         <div class="step-card">
             <div class="step-num">2</div>
             <div class="step-content">
-                <h3>開始：かんたん実行ファイルをダブルクリック</h3>
-                <p>展開したフォルダの中に、いくつか「.bat」で終わるファイルがあります。順番にダブルクリックするだけでOKです。</p>
-                <div class="code-box">
-                    1. setup.bat をダブルクリック (最初だけ1回)<br>
-                    2. start.bat をダブルクリック (毎回)
+                <h3>開始：2つのファイルを順番に開くだけ</h3>
+                <p>フォルダの中にあるアイコンをダブルクリックするだけでOKです。黒い画面に文字を打ち込む必要はありません。</p>
+
+                <div style="margin: 20px 0;">
+                    <div
+                        style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--glass-border);">
+                        <strong style="color: var(--tiktok-cyan);">① setup.bat をダブルクリック</strong><br>
+                        <span style="font-size: 13px; color: var(--text-sub);">「準備」を自動で行います。最初の一回だけで大丈夫です。</span>
+                    </div>
+                    <div
+                        style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                        <strong style="color: var(--tiktok-cyan);">② start.bat をダブルクリック</strong><br>
+                        <span style="font-size: 13px; color: var(--text-sub);">これでツールが動き出します！毎回ここから始めます。</span>
+                    </div>
                 </div>
-                <p style="margin-top:15px;">黒い画面に「Server is running...」と出たら準備完了！ブラウザで <code>http://localhost:8081</code>
-                    を開いてください。</p>
+
+                <p>起動したら、ブラウザで <strong>http://localhost:8081</strong> を開いてください。</p>
+
                 <div class="tip">
-                    <strong>🆙 アップデートしたいときは？</strong><br>
-                    <code>update.bat</code> をダブルクリックするだけで、自動で最新版になります。
+                    <strong>🆙 最新版にしたいときは？</strong><br>
+                    <code>update.bat</code> をダブルクリックすると、自動で最新の状態に更新されます。
                 </div>
             </div>
         </div>
