@@ -381,19 +381,20 @@
 
         let currentRankingData = [];
 
-        // CSVコピー機能
+        // CSVコピー機能 (実際にはタブ区切りで、スプレッドシートへの貼り付けを最適化)
         document.getElementById('copy-csv').onclick = () => {
             if (currentRankingData.length === 0) {
                 alert('データがありません。');
                 return;
             }
 
-            let csvContent = "順位,ユーザー名,ユーザーID,タップ数\n";
+            // タブ区切り (\t) にすることで、スプレッドシートにそのまま貼り付けて列が分かれるようになります
+            let tsvContent = "順位\tユーザー名\tユーザーID\tタップ数\n";
             currentRankingData.forEach((user, index) => {
-                csvContent += `${index + 1},"${user.name}","${user.id}",${user.taps}\n`;
+                tsvContent += `${index + 1}\t"${user.name}"\t"${user.id}"\t${user.taps}\n`;
             });
 
-            navigator.clipboard.writeText(csvContent).then(() => {
+            navigator.clipboard.writeText(tsvContent).then(() => {
                 const btn = document.getElementById('copy-csv');
                 const originalText = btn.innerText;
                 btn.innerText = '✅ コピー完了！';
