@@ -1,22 +1,32 @@
 @echo off
+chcp 65001 > nul
 setlocal
+
 echo ======================================================
 echo   TikTok Live Tap Dashboard - 最新版への更新
 echo ======================================================
 echo.
-echo ツールを最新の状態にアップデートします...
-echo.
-pause
 
+:: Git のチェック
+where git >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo [!] Git がインストールされていないため、自動更新はできません。
+    echo 手動で最新の ZIP をダウンロードしてください。
+    echo.
+    pause
+    exit /b 1
+)
+
+echo 最新の状態にアップデートします...
 echo.
-echo [1/2] 最新のプログラムを取得しています...
+
+echo [1/2] 最新のプログラムを取得中...
 call git pull
 
-echo.
-echo [2/2] 必要な構成を更新しています...
+echo [2/2] 構成を更新中...
 call npm install
 
 echo.
-echo アップデートがすべて完了しました！
+echo アップデートが完了しました！
 echo.
 pause
