@@ -2,6 +2,15 @@
 chcp 65001 > nul
 setlocal
 
+:: 最小化して再起動する仕組み (二重起動防止も兼ねる)
+if not "%1"=="min" (
+    start /min cmd /c "%~nx0" min
+    exit /b
+)
+
+:: タイトルを設定（stop.bat で狙い撃ちするため）
+title TikTokLiveTap_Start
+
 echo ======================================================
 echo   TikTok Live Tap Dashboard - 起動
 echo ======================================================
@@ -27,6 +36,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo ツールを起動しています...
 echo ブラウザが自動的に開くまで数秒お待ちください。
+echo (この画面は最小化されています)
 echo.
 
 call npm start

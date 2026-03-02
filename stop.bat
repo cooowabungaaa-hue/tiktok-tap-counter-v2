@@ -6,19 +6,22 @@ echo ======================================================
 echo   TikTok Live Tap Dashboard - 強制終了
 echo ======================================================
 echo.
-echo ツールが重なっていたり、終了できない場合に実行してください。
+echo ツールを安全に終了させ、画面を閉じます...
 echo.
 
-:: 起動中のnodeプロセスをすべて終了させる
+:: 1. 起動中のプログラム (node.exe) を終了させる
 taskkill /f /im node.exe >nul 2>&1
 
+:: 2. start.bat で開いた黒い画面をタイトルで探して終了させる
+taskkill /f /fi "WINDOWTITLE eq TikTokLiveTap_Start*" /im cmd.exe >nul 2>&1
+
 if %ERRORLEVEL% EQU 0 (
-    echo [✓] ツールを正常に終了させました。
+    echo [✓] ツールと起動画面を正常に終了させました。
 ) else (
-    echo [!] 現在、起動中のツールは見つかりませんでした。
+    echo [✓] 終了処理を完了しました。
 )
 
 echo.
-echo これで再度 start.bat や launch-browser.vbs を開くことができます。
-echo.
-pause
+echo 3秒後にこの画面を自動で閉じます。
+timeout /t 3 > nul
+exit
