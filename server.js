@@ -160,4 +160,16 @@ server.listen(PORT, () => {
     exec(`${startCommand} ${url}`);
 
     reconnectTikTok();
+}).on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error('\n' + '='.repeat(50));
+        console.error('[!] エラー: サーバーを起動できませんでした。');
+        console.error(`原因: ポート ${PORT} は既に他のプログラムで使用されています。`);
+        console.error('解決策: すでにツールが起動している可能性があります。');
+        console.error('一度すべての「黒い画面」を閉じるか、PCを再起動してください。');
+        console.error('='.repeat(50) + '\n');
+        process.exit(1);
+    } else {
+        console.error('Server Error:', err);
+    }
 });
