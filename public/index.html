@@ -31,7 +31,6 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -87,49 +86,26 @@
             border-radius: 50%;
         }
 
-        /* Layout Container */
-        .main-layout {
-            display: flex;
+        /* Ranking Container */
+        .main-container {
             flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            padding: 24px;
             overflow: hidden;
         }
 
-        /* Left: Stream View */
-        .stream-panel {
-            flex: 1.2;
-            border-right: 1px solid var(--glass-border);
-            background: #000;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .stream-placeholder {
-            text-align: center;
-            max-width: 400px;
-            padding: 40px;
-        }
-
-        .stream-placeholder h2 {
-            font-size: 24px;
-            margin-bottom: 16px;
-        }
-
-        .stream-placeholder p {
-            color: var(--text-sub);
-            font-size: 15px;
-            margin-bottom: 24px;
-        }
-
-        /* Right: Ranking View */
-        .ranking-panel {
-            flex: 0.8;
+        .ranking-card {
+            width: 100%;
+            max-width: 600px;
             background-color: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
             display: flex;
             flex-direction: column;
-            min-width: 400px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
         .panel-header {
@@ -138,6 +114,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .panel-header h3 {
@@ -186,8 +163,8 @@
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background-color: #333;
             margin-right: 14px;
@@ -311,31 +288,13 @@
                 background: transparent;
             }
         }
-
-        /* Responsive */
-        @media (max-width: 800px) {
-            .main-layout {
-                flex-direction: column;
-            }
-
-            .stream-panel {
-                flex: 0.5;
-                border-right: none;
-                border-bottom: 1px solid var(--glass-border);
-            }
-
-            .ranking-panel {
-                flex: 1;
-                min-width: 100%;
-            }
-        }
     </style>
 </head>
 
 <body>
 
     <div class="top-bar">
-        <div class="logo"><span>❤</span> Tap Dashboard</div>
+        <div class="logo"><span>❤</span> Tap Ranking</div>
         <div class="nav-actions">
             <div id="connection-status" class="status-badge">
                 <div class="pulse"></div>
@@ -345,34 +304,11 @@
         </div>
     </div>
 
-    <div class="main-layout">
-        <!-- Dashboard: Left Panel (Stream) -->
-        <div class="stream-panel">
-            <div class="stream-placeholder" id="stream-info">
-                <div id="monitor-content">
-                    <h2>📺 Stream Monitor</h2>
-                    <p id="monitor-status-text">設定ボタンからTikTok IDを入力してください。</p>
-                    <div id="monitor-actions" style="display: none;">
-                        <button class="btn" id="launch-stream" style="font-size: 18px; padding: 15px 30px;">
-                            配信を別窓で開く
-                        </button>
-                        <p style="margin-top: 20px; font-size: 13px; color: var(--text-sub);">
-                            ※TikTokの仕様上、この画面内への埋め込みは制限されています。<br>
-                            別窓で開いた配信を、左側に配置してご利用ください。
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!-- Hidden iframe for testing or future use -->
-            <iframe id="stream-iframe" style="display: none; width: 100%; height: 100%; border: none;"></iframe>
-        </div>
-
-        <!-- Dashboard: Right Panel (Ranking) -->
-        <div class="ranking-panel">
-            <!-- ... existing ranking panel ... -->
+    <div class="main-container">
+        <div class="ranking-card">
             <div class="panel-header">
                 <h3>🏆 Tap Ranking</h3>
-                <span id="rank-count" style="font-size: 12px; color: var(--text-sub);">0 Viewers</span>
+                <span id="rank-count" style="font-size: 12px; color: var(--text-sub);">0 Viewers Tracked</span>
             </div>
             <ul class="ranking-list" id="ranking-container">
                 <!-- Ranking items will be injected here -->
@@ -408,9 +344,6 @@
         const tiktokInput = document.getElementById('tiktok-id-input');
         const gsInput = document.getElementById('gs-url-input');
 
-        const monitorStatusText = document.getElementById('monitor-status-text');
-        const monitorActions = document.getElementById('monitor-actions');
-
         let currentTiktokId = '';
 
         // 初期設定の取得
@@ -421,11 +354,6 @@
                     tiktokInput.value = config.tiktokUsername;
                     gsInput.value = config.googleSheetUrl;
                     currentTiktokId = config.tiktokUsername;
-
-                    if (currentTiktokId) {
-                        monitorStatusText.innerHTML = `<span style="color:var(--tiktok-cyan)">@${currentTiktokId}</span> の配信準備ができました。`;
-                        monitorActions.style.display = 'block';
-                    }
                 });
         }
         updateConfig();
@@ -436,11 +364,6 @@
             pulse.style.backgroundColor = color;
             pulse.style.boxShadow = `0 0 10px ${color}`;
             statusEl.childNodes[2].textContent = data.msg;
-
-            if (data.connected && currentTiktokId) {
-                monitorStatusText.innerHTML = `<span style="color:var(--tiktok-cyan)">@${currentTiktokId}</span> に接続しました！`;
-                monitorActions.style.display = 'block';
-            }
         });
 
         let prevRanking = {};
