@@ -4,224 +4,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Live Tap Monitor - 配布ページ</title>
+    <title>TikTok Live Tap Monitor - 初心者向けガイド</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Noto+Sans+JP:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #0f0f11;
             --card-bg: #1f1f23;
             --text-main: #ffffff;
-            --text-sub: #8a8b91;
+            --text-sub: #a1a1aa;
             --tiktok-cyan: #25F4EE;
             --tiktok-magenta: #FE2C55;
+            --accent-gradient: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-magenta));
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Outfit', 'Noto Sans JP', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
-            overflow-x: hidden;
+            line-height: 1.7;
         }
 
-        /* Hero Section */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero */
         .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             text-align: center;
-            padding: 100px 20px;
-            background: radial-gradient(circle at center, rgba(37, 244, 238, 0.1) 0%, rgba(15, 15, 17, 1) 60%);
+            padding: 80px 20px;
+            background: radial-gradient(circle at center, rgba(37, 244, 238, 0.1) 0%, rgba(15, 15, 17, 1) 70%);
         }
 
         .hero h1 {
-            font-size: 48px;
+            font-size: clamp(32px, 8vw, 56px);
             margin: 0 0 20px 0;
-            background: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-magenta));
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-weight: 900;
         }
 
         .hero p {
             font-size: 18px;
             color: var(--text-sub);
-            max-width: 600px;
-            margin-bottom: 40px;
+            max-width: 650px;
+            margin: 0 auto 40px;
         }
 
-        .btn {
+        .btn-main {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 18px 40px;
+            font-size: 20px;
+            font-weight: 800;
             color: #fff;
             text-decoration: none;
-            border-radius: 30px;
-            background: linear-gradient(90deg, var(--tiktok-cyan), var(--tiktok-magenta));
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-            cursor: pointer;
+            border-radius: 40px;
+            background: var(--accent-gradient);
+            box-shadow: 0 10px 30px rgba(254, 44, 85, 0.3);
+            transition: all 0.3s;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(254, 44, 85, 0.4);
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(254, 44, 85, 0.5);
         }
 
-        /* Features Section */
-        .features {
-            padding: 60px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
+        /* Steps */
         .section-title {
             text-align: center;
             font-size: 32px;
-            margin-bottom: 40px;
+            margin: 80px 0 40px;
+            font-weight: 800;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
+        .step-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(37, 244, 238, 0.3);
-        }
-
-        .card h3 {
-            color: var(--tiktok-cyan);
-            margin-top: 0;
-        }
-
-        /* Quick Start */
-        .quick-start {
-            background-color: var(--card-bg);
-            padding: 60px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .quick-start-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .step {
             display: flex;
+            gap: 30px;
             align-items: flex-start;
-            margin-bottom: 20px;
         }
 
         .step-num {
-            background-color: var(--tiktok-magenta);
-            color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            background: var(--accent-gradient);
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            margin-right: 15px;
+            font-size: 24px;
+            font-weight: 900;
             flex-shrink: 0;
         }
 
-        .code-block {
-            background-color: #000;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
+        .step-content h3 {
+            margin: 0 0 12px 0;
+            font-size: 22px;
             color: var(--tiktok-cyan);
-            overflow-x: auto;
-            margin-top: 10px;
         }
 
-        /* Footer */
+        .step-content p {
+            margin: 0 0 20px 0;
+            color: var(--text-sub);
+        }
+
+        .tip {
+            background: rgba(37, 244, 238, 0.05);
+            border-left: 4px solid var(--tiktok-cyan);
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        code {
+            background: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--tiktok-magenta);
+            font-family: monospace;
+        }
+
+        .code-box {
+            background: #000;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 14px;
+            color: #ccc;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         footer {
             text-align: center;
-            padding: 30px;
-            color: var(--text-sub);
+            padding: 60px 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-sub);
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .step-card {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            .step-num {
+                margin: 0 auto 20px;
+            }
+
+            .step-content {
+                text-align: center;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <header class="hero">
-        <h1>Tap Ranking Monitor</h1>
-        <p>TikTok Liveの「いいね（タップ）」ランキングをリアルタイムで可視化。<br>OBSに組み込んで、配信のエンゲージメントを最大化しよう。</p>
-        <a href="https://github.com/cooowabungaaa-hue/tiktok-tap-counter-v2" class="btn"
-            target="_blank">GitHubでダウンロード</a>
-    </header>
-
-    <section class="features">
-        <h2 class="section-title">Features</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>⚡ リアルタイム更新</h3>
-                <p>視聴者のタップを瞬時に検知し、ランキングを自動で並び替えます。熱心なファンを逃さずピックアップ。</p>
-            </div>
-            <div class="card">
-                <h3>🎨 OBS完全対応</h3>
-                <p>ブラウザソースとしてOBSに追加するだけで、透過背景の美しいUIを配信画面にオーバーレイできます。</p>
-            </div>
-            <div class="card">
-                <h3>🛠 簡単セットアップ</h3>
-                <p>複雑な設定は不要。Node.jsでサクッと立ち上げて、あなたのTikTok IDを入力するだけですぐに使えます。</p>
-            </div>
+    <section class="hero">
+        <div class="container">
+            <h1>Tap Ranking monitor</h1>
+            <p>TikTokライブの「いいね」ランキングを、自分だけの専用画面でチェック。<br>難しい設定なしで、今すぐ配信を盛り上げましょう。</p>
+            <a href="https://github.com/cooowabungaaa-hue/tiktok-tap-counter-v2" class="btn-main"
+                target="_blank">今すぐダウンロード</a>
         </div>
     </section>
 
-    <section class="quick-start">
-        <div class="quick-start-content">
-            <h2 class="section-title">Quick Start</h2>
+    <div class="container">
+        <h2 class="section-title">とっても簡単な 3ステップ</h2>
 
-            <div class="step">
-                <div class="step-num">1</div>
-                <div>
-                    <strong>リポジトリをクローン</strong>
-                    <div class="code-block">git clone https://github.com/cooowabungaaa-hue/tiktok-tap-counter-v2.git
-                    </div>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-num">2</div>
-                <div>
-                    <strong>依存関係をインストール</strong>
-                    <div class="code-block">cd tiktok-tap-counter-v2<br>npm install</div>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-num">3</div>
-                <div>
-                    <strong>サーバーを起動してOBSに追加</strong>
-                    <div class="code-block">node server.js</div>
-                    <p style="color: var(--text-sub); font-size: 14px; margin-top: 5px;">
-                        表示されたローカルホストのURLを、OBSの「ブラウザソース」に追加してください。</p>
+        <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h3>準備：ソフトを自分のPCに入れる</h3>
+                <p>上のボタンからGitHubページに行き、緑色の「Code」ボタンを押して「Download ZIP」を選んでください。ダウンロードしたフォルダを右クリックして「すべて展開（解凍）」すれば準備OKです。
+                </p>
+                <div class="tip">
+                    <strong>💡 ヒント</strong><br>
+                    PCに「Node.js」が入っている必要があります。入っていない場合は、<a href="https://nodejs.org/" target="_blank"
+                        style="color:var(--tiktok-cyan)">公式サイト</a>から推奨版（LTS）をインストールしてください。
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h3>開始：ツールを動かす</h3>
+                <p>展開したフォルダの中で右クリックし、「ターミナルで開く」または「コマンドプロンプト」を開いて、以下の魔法の言葉を入力してください。</p>
+                <div class="code-box">
+                    npm install (最初だけ1回)<br>
+                    npm start
+                </div>
+                <p style="margin-top:15px;">入力が終わると、<code>http://localhost:8081</code>
+                    という文字が出るので、それをクリックするかブラウザで開いてください。</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <h3>設定：TikTok IDを入れるだけ</h3>
+                <p>ブラウザで開いたら、右上の「⚙設定」を押して、あなたのTikTok ID（@の後の英語）を入力します。「保存」を押して、中央の大きなボタンで配信画面を並べれば、ランキングの追跡が始まります！</p>
+                <div class="tip">
+                    <strong>✨ 完成！</strong><br>
+                    あとは、視聴者の皆さんがタップしてくれるのを待つだけです。自動的にランキングが並び替わります。
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
-        <p>&copy; 2026 cooowabungaaa-hue. MIT License.</p>
+        <p>&copy; 2026 cooowabungaaa-hue. TikTok Live応援ツール</p>
     </footer>
 
 </body>
