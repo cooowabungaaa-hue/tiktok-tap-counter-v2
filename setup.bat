@@ -7,33 +7,41 @@ echo   TikTok Live Tap Dashboard - 初回セットアップ
 echo ======================================================
 echo.
 
-:: Node.js のチェック
+:: 1. 既に PATH にあるかチェック
 set NODE_EXE=node
 where %NODE_EXE% >nul 2>nul
-if %ERRORLEVEL% NEQ 0 (
-    :: ポータブル版のパスをチェック
-    if exist "..\tiktok-rose-counter-main\node-bin\node.exe" (
-        set "PATH=%~dp0..\tiktok-rose-counter-main\node-bin;%PATH%"
-        set NODE_EXE=node
-    ) else if exist "C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin\node.exe" (
-        set "PATH=C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin;%PATH%"
-        set NODE_EXE=node
-    ) else (
-        echo [!] Node.js が見つかりませんでした。
-        echo.
-        echo 【解決方法】
-        echo 以下のサイトから Node.js をインストールして、再起動してください。
-        echo https://nodejs.org/ (推奨版/LTS を選択)
-        echo.
-        pause
-        exit /b 1
-    )
+if %ERRORLEVEL% EQU 0 goto NODE_FOUND
+
+:: 2. 自分のフォルダ内の node-bin をチェック
+if exist "%~dp0node-bin\node.exe" (
+    set "PATH=%~dp0node-bin;%PATH%"
+    goto NODE_FOUND
 )
 
+:: 3. 他のプロジェクトの node-bin をチェック (既存の環境用)
+if exist "..\tiktok-rose-counter-main\node-bin\node.exe" (
+    set "PATH=%~dp0..\tiktok-rose-counter-main\node-bin;%PATH%"
+    goto NODE_FOUND
+)
+if exist "C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin\node.exe" (
+    set "PATH=C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin;%PATH%"
+    goto NODE_FOUND
+)
+
+:NODE_NOT_FOUND
+echo [!] Node.js が見つかりませんでした。
+echo.
+echo 会社や管理制限のあるPCで、インストールができない場合は：
+echo 1. 「PORTABLE_GUIDE.md」を読んでください。
+echo 2. ポータブル版をダウンロードして「node-bin」フォルダに入れてください。
+echo.
+pause
+exit /b 1
+
+:NODE_FOUND
 echo [✓] Node.js を確認しました。
 echo.
-echo [1/2] 必要なプログラムの準備中...
-echo (これには数分かかる場合があります。そのままお待ちください)
+echo [1/2] 必要なプログラムを準備しています...
 echo.
 
 call npm install

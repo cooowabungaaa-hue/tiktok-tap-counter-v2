@@ -8,17 +8,17 @@ echo ======================================================
 echo.
 
 :: Node.js のチェック
-set NODE_EXE=node
-where %NODE_EXE% >nul 2>nul
+where node >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
-    :: ポータブル版のパスをチェック
-    if exist "..\tiktok-rose-counter-main\node-bin\node.exe" (
+    if exist "%~dp0node-bin\node.exe" (
+        set "PATH=%~dp0node-bin;%PATH%"
+    ) else if exist "..\tiktok-rose-counter-main\node-bin\node.exe" (
         set "PATH=%~dp0..\tiktok-rose-counter-main\node-bin;%PATH%"
     ) else if exist "C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin\node.exe" (
         set "PATH=C:\Users\小野明子\Desktop\tiktok-rose-counter-main\node-bin;%PATH%"
     ) else (
         echo [!] Node.js が見つかりません。
-        echo 先に Node.js をインストールするか、setup.bat を確認してください。
+        echo 先に setup.bat を実行して内容を確認してください。
         echo.
         pause
         exit /b 1
@@ -39,7 +39,6 @@ if %ERRORLEVEL% NEQ 0 (
     echo.
     echo ------------------------------------------------------
     echo 起動に失敗しました。
-    echo 先に setup.bat を実行して準備を済ませてください。
     echo ------------------------------------------------------
     pause
 )
