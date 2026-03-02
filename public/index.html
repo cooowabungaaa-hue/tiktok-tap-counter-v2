@@ -307,8 +307,13 @@
     <div class="main-container">
         <div class="ranking-card">
             <div class="panel-header">
-                <h3>🏆 Tap Ranking</h3>
-                <span id="rank-count" style="font-size: 12px; color: var(--text-sub);">0 Viewers Tracked</span>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <h3 style="margin:0;">🏆 Tap Ranking</h3>
+                    <span id="rank-count" style="font-size: 11px; color: var(--text-sub);">0 Viewers Tracked</span>
+                </div>
+                <button class="btn btn-outline" id="copy-csv" style="padding: 6px 12px; font-size: 11px;">
+                    📋 CSVコピー
+                </button>
             </div>
             <ul class="ranking-list" id="ranking-container">
                 <!-- Ranking items will be injected here -->
@@ -369,9 +374,39 @@
         let prevRanking = {};
 
         socket.on('rankingUpdate', (ranking) => {
+            currentRankingData = ranking; // 保存用にデータを保持
             renderRanking(ranking);
             rankCountEl.textContent = `${ranking.length} Viewers Tracked`;
         });
+
+        let currentRankingData = [];
+
+        // CSVコピー機能
+        document.getElementById('copy-csv').onclick = () => {
+            if (currentRankingData.length === 0) {
+                alert('データがありません。');
+                return;
+            }
+
+            let csvContent = "順位,ユーザー名,ユーザーID,タップ数\n";
+            currentRankingData.forEach((user, index) => {
+                csvContent += `${index + 1},"${user.name}","${user.id}",${user.taps}\n`;
+            });
+
+            navigator.clipboard.writeText(csvContent).then(() => {
+                const btn = document.getElementById('copy-csv');
+                const originalText = btn.innerText;
+                btn.innerText = '✅ コピー完了！';
+                btn.style.borderColor = 'var(--tiktok-cyan)';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.borderColor = 'var(--glass-border)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('コピーに失敗しました。');
+            });
+        };
 
         function renderRanking(viewers) {
             container.innerHTML = '';
