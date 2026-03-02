@@ -68,14 +68,21 @@ app.post('/api/stop', (req, res) => {
     }, 500);
 });
 
+let lastConnectedUsername = '';
+
 // TikTok Live接続管理
 function reconnectTikTok() {
     if (tiktokConnection) {
         tiktokConnection.disconnect();
     }
 
-    viewers = {}; // ユーザーをリセット
-    io.emit('rankingUpdate', []); // クライアントのランキングをクリア
+    // IDが新しく設定された場合のみデータをリセットする
+    if (config.tiktokUsername !== lastConnectedUsername) {
+        console.log(`New TikTok ID detected: ${config.tiktokUsername}. Resetting data.`);
+        viewers = {};
+        io.emit('rankingUpdate', []);
+        lastConnectedUsername = config.tiktokUsername;
+    }
 
     if (!config.tiktokUsername) {
         io.emit('statusUpdate', { connected: false, msg: 'TikTok ID未設定' });
