@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Live Tap Monitor - 配布ページ</title>
+    <style>
+        :root {
+            --bg-color: #0f0f11;
+            --card-bg: #1f1f23;
+            --text-main: #ffffff;
+            --text-sub: #8a8b91;
+            --tiktok-cyan: #25F4EE;
+            --tiktok-magenta: #FE2C55;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+            background: radial-gradient(circle at center, rgba(37, 244, 238, 0.1) 0%, rgba(15, 15, 17, 1) 60%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin: 0 0 20px 0;
+            background: linear-gradient(135deg, var(--tiktok-cyan), var(--tiktok-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, var(--tiktok-cyan), var(--tiktok-magenta));
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(254, 44, 85, 0.4);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(37, 244, 238, 0.3);
+        }
+
+        .card h3 {
+            color: var(--tiktok-cyan);
+            margin-top: 0;
+        }
+
+        /* Quick Start */
+        .quick-start {
+            background-color: var(--card-bg);
+            padding: 60px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .quick-start-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .step-num {
+            background-color: var(--tiktok-magenta);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .code-block {
+            background-color: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: var(--tiktok-cyan);
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-sub);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="hero">
+        <h1>Tap Ranking Monitor</h1>
+        <p>TikTok Liveの「いいね（タップ）」ランキングをリアルタイムで可視化。<br>OBSに組み込んで、配信のエンゲージメントを最大化しよう。</p>
+        <a href="https://github.com/cooowabungaaa-hue/tiktok-tap-counter-v2" class="btn"
+            target="_blank">GitHubでダウンロード</a>
+    </header>
+
+    <section class="features">
+        <h2 class="section-title">Features</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>⚡ リアルタイム更新</h3>
+                <p>視聴者のタップを瞬時に検知し、ランキングを自動で並び替えます。熱心なファンを逃さずピックアップ。</p>
+            </div>
+            <div class="card">
+                <h3>🎨 OBS完全対応</h3>
+                <p>ブラウザソースとしてOBSに追加するだけで、透過背景の美しいUIを配信画面にオーバーレイできます。</p>
+            </div>
+            <div class="card">
+                <h3>🛠 簡単セットアップ</h3>
+                <p>複雑な設定は不要。Node.jsでサクッと立ち上げて、あなたのTikTok IDを入力するだけですぐに使えます。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-start">
+        <div class="quick-start-content">
+            <h2 class="section-title">Quick Start</h2>
+
+            <div class="step">
+                <div class="step-num">1</div>
+                <div>
+                    <strong>リポジトリをクローン</strong>
+                    <div class="code-block">git clone https://github.com/cooowabungaaa-hue/tiktok-tap-counter-v2.git
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div>
+                    <strong>依存関係をインストール</strong>
+                    <div class="code-block">cd tiktok-tap-counter-v2<br>npm install</div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div>
+                    <strong>サーバーを起動してOBSに追加</strong>
+                    <div class="code-block">node server.js</div>
+                    <p style="color: var(--text-sub); font-size: 14px; margin-top: 5px;">
+                        表示されたローカルホストのURLを、OBSの「ブラウザソース」に追加してください。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 cooowabungaaa-hue. MIT License.</p>
+    </footer>
+
+</body>
+
+</html>
