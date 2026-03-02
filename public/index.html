@@ -399,17 +399,6 @@
             });
         }
 
-        // Action: Launch Stream
-        document.getElementById('launch-stream').onclick = () => {
-            if (!currentTiktokId) {
-                alert('先に設定画面でTikTok IDを入力してください。');
-                return;
-            }
-            const url = `https://www.tiktok.com/@${currentTiktokId}/live`;
-            // 小窓で開く
-            window.open(url, 'tiktok_live', 'width=1000,height=700');
-        };
-
         // Modal Controls
         document.getElementById('open-settings').onclick = () => modal.style.display = 'flex';
         document.getElementById('close-settings').onclick = () => modal.style.display = 'none';
