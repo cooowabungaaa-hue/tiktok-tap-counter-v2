@@ -2,14 +2,14 @@
 chcp 65001 > nul
 setlocal
 
-:: 最小化して再起動する仕組み (二重起動防止も兼ねる)
+:: 最小化して再起動する仕組み
 if not "%1"=="min" (
-    start /min cmd /c "%~nx0" min
+    start "TikTokLiveTap_Running_Window" /min cmd /c "%~nx0" min
     exit /b
 )
 
-:: タイトルを設定（stop.bat で狙い撃ちするため）
-title TikTokLiveTap_Start
+:: タイトルを明示的に設定
+title TikTokLiveTap_Running_Window
 
 echo ======================================================
 echo   TikTok Live Tap Dashboard - 起動
